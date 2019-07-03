@@ -40,7 +40,6 @@ int main(int argc, char** argv)
     
     // Filter image
 
-
     // Show image
     
     

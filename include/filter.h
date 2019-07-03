@@ -2,8 +2,10 @@
 #include <iostream>
 #include <string>
 
+#include <filter.cpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
+
 
 using namespace cv;
 using namespace std;
@@ -13,6 +15,7 @@ class Filter
     public:
     virtual Mat ProcessImage(Mat image) = 0 {}
 };
+
 class GrayFilter : Filter
 {
 private:
@@ -22,14 +25,14 @@ public:
 	
 };
 
-class ResizeFilter : Filter
-{
-private:
-	int width;
-	int height;
-public:
-    ResizeFilter(int newWidth, int newHeight);
-	
-    Mat ProcessImage(Mat image);
-	
-};
+//class ResizeFilter : Filter
+//{
+//private:
+//	int width;
+//	int height;
+//public:
+//    ResizeFilter(int newWidth, int newHeight);
+//	
+//    Mat ProcessImage(Mat image);
+//	
+//};
