@@ -14,18 +14,18 @@ const char* cmdAbout = "Sample of OpenCV usage. ";
 
 const char* cmdOptions =
 "{ i  image                             | <none> | image to process                  }"
-"{ w  width                             |    124    | image width for classification    }"
-"{ h  height                            |     124   | image heigth fro classification   }"
-"{ model_path                           |    C:\\Users\\temp2019\\Desktop\\CV Camp\\classification\\squeezenet\\1.1\\caffe    | path to model                     }"
-"{ config_path                          |    C:\\Users\\temp2019\\Desktop\\CV Camp\\classification\\squeezenet\\1.1\\caffe   | path to model configuration       }"
-"{ label_path                           |    C:\\Users\\temp2019\\Desktop\\CV Camp\\CV-SUMMER-CAMP\\data    | path to class labels              }"
-"{ mean                                 |    <none>    | vector of mean model values       }"
-"{ swap                                 |    FALSE    | swap R and B channels. TRUE|FALSE }"
+"{ w  width                             |   512  | image width for classification    }"
+"{ h  height                            |   256  | image heigth fro classification   }"
+"{ model_path                           |    C:\\My foulder\\Resourses\\classification\\squeezenet\\1.1\\caffe    | path to model                     }"
+"{ config_path                          |    C:\\My foulder\\Resourses\\classification\\squeezenet\\1.1\\caffe   | path to model configuration       }"
+"{ label_path                           |        | path to class labels              }"
+"{ mean                                 |        | vector of mean model values       }"
+"{ swap                                 |        | swap R and B channels. TRUE|FALSE }"
 "{ q ? help usage                       |        | print help message                }";
 
 int main(int argc, char** argv)
 {
-	// Process input arguments
+	//Process input arguments
 	CommandLineParser parser(argc, argv, cmdOptions);
 	parser.about(cmdAbout);
 
@@ -44,18 +44,28 @@ int main(int argc, char** argv)
 	String imgName(parser.get<String>("image"));
 	cv::Mat image = cv::imread(imgName);
 
-	int width = parser.get<int>("w");
-	int height = parser.get<int>("h");
-	string model_path = parser.get<string>("model_path");
-	string config_path = parser.get<string>("config_path");
+	float width = parser.get<float>("w");
+	float height = parser.get<float>("h");
+	string model_path(parser.get<string>("model_path"));
+	string config_path(parser.get<string>("config_path"));
+	string label_path="C:\\My foulder\\Resourses\\classification\\squeezenet\\1.1\\caffe";
+	//string mean(parser.get<string>("mean "));
+	bool SwapRB=false;
+	
 
-	DnnClassificator clas;
+	Scalar mean = { 113,123,124 };
+
 	//Image classification
-	clas.DnnClassificator();
-	clas.Classify(image);
+	DnnClassificator classify = DnnClassificator(width, height, model_path, config_path, label_path, mean, SwapRB);
+	Mat result = classify.Classify(image);
 
 	//Show result
-
+	Point classIdPoint;
+	double confidence;
+	minMaxLoc(result.reshape(1, 1), 0, &confidence, 0, &classIdPoint);
+	int classId = classIdPoint.x;
+	cout << "Class: " << classId << '\n';
+	cout << "Confidence: " << confidence << '\n';
 
 	return 0;
 }
