@@ -14,8 +14,8 @@ const char* cmdAbout = "Sample of OpenCV usage. ";
 
 const char* cmdOptions =
 "{ i  image                             | <none> | image to process                  }"
-"{ w  width                             |   512  | image width for classification    }"
-"{ h  height                            |   256  | image heigth fro classification   }"
+"{ w  width                             |   227  | image width for classification    }"
+"{ h  height                            |   227  | image heigth fro classification   }"
 "{ model_path                           |    C:\\My foulder\\Resourses\\classification\\squeezenet\\1.1\\caffe    | path to model                     }"
 "{ config_path                          |    C:\\My foulder\\Resourses\\classification\\squeezenet\\1.1\\caffe   | path to model configuration       }"
 "{ label_path                           |        | path to class labels              }"
@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 	bool SwapRB=false;
 	
 
-	Scalar mean = { 113,123,124 };
+	Scalar mean = { 0,0,0 };
 
 	//Image classification
 	DnnClassificator classify = DnnClassificator(width, height, model_path, config_path, label_path, mean, SwapRB);
@@ -64,7 +64,7 @@ int main(int argc, char** argv)
 	double confidence;
 	minMaxLoc(result.reshape(1, 1), 0, &confidence, 0, &classIdPoint);
 	int classId = classIdPoint.x;
-	cout << "Class: " << classId << '\n';
+	cout << "Class: " << classId+1 << '\n';
 	cout << "Confidence: " << confidence << '\n';
 
 	return 0;

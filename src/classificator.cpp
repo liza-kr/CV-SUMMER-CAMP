@@ -16,7 +16,7 @@ DnnClassificator::DnnClassificator(float inputWidth, float inputHeight, string m
 
 Mat DnnClassificator::Classify(Mat image) {
 	Mat inputTensor;
-	blobFromImage(image, inputTensor, 0.00833, Size(width, height), mean, SwapRB,CV_8UC3);
+	blobFromImage(image, inputTensor, 1.0, Size(width, height), mean, SwapRB,CV_8UC3);
 	net.setInput(inputTensor);
 	Mat result = net.forward();
 	return result;
